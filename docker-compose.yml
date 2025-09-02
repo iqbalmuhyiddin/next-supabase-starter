@@ -1,0 +1,33 @@
+services:
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${NODE_ENV:-production}-final
+      args:
+        - NODE_ENV=${NODE_ENV:-production}
+    image: next-supabase-app:${NODE_ENV:-production}
+    container_name: next-supabase-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    env_file:
+      - .env.${NODE_ENV:-production}
+    volumes:
+      # Only mount source code in development
+      - "${PWD}:/app${DOCKER_VOLUME_OPTS:-}"
+      - "/app/node_modules"
+      - "/app/.next"
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

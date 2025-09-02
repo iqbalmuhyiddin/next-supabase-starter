@@ -620,7 +620,14 @@ export const env = envSchema.parse(process.env)
 ```bash
 # Development
 npm run dev --turbo          # Fast refresh with Turbopack
+npm run docker:dev          # Docker development (recommended)
 supabase start              # Local Supabase
+
+# Docker
+npm run docker:dev          # Start development container
+npm run docker:prod         # Start production container  
+npm run docker:stop         # Stop containers
+npm run docker:clean        # Clean containers and volumes
 
 # Testing
 npm run test                # Run tests in watch mode
@@ -636,7 +643,47 @@ npx shadcn@latest add       # Add components
 
 # Production
 npm run build              # Type-safe build
+npm run docker:prod        # Deploy with Docker
 supabase db push          # Deploy migrations
+```
+
+## 🐳 Docker Development Workflow
+
+### Preferred Development Method: Docker
+
+Docker is the recommended development approach for this project:
+
+```bash
+# Start development (first time)
+cp .env.local.example .env.local  # Configure environment
+npm run docker:dev                # Start containers
+
+# Daily development
+npm run docker:dev    # Start (rebuilds if needed)
+# Code changes are reflected immediately via volume mounting
+npm run docker:stop   # Stop containers when done
+
+# Troubleshooting
+npm run docker:clean  # Reset everything
+npm run docker:dev    # Rebuild and restart
+```
+
+### Docker Benefits
+
+1. **Consistent Environment**: Same Node.js version, dependencies across team
+2. **Isolation**: No conflicts with local Node.js installations  
+3. **Production Parity**: Dev environment matches production deployment
+4. **Easy Onboarding**: New developers get running environment instantly
+5. **Volume Mounting**: Hot reload works seamlessly in development
+
+### Environment Files for Docker
+
+```bash
+# Development
+.env.local           # Docker development environment
+
+# Production  
+.env.production      # Production deployment environment
 ```
 
 ## 🚨 Critical Rules
@@ -652,3 +699,4 @@ supabase db push          # Deploy migrations
 9. **Implement proper error boundaries**
 10. **Stream data with Suspense for better UX**
 11. **Test business logic, not implementation details**
+12. **Prefer Docker for development and deployment consistency**

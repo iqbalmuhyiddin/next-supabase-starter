@@ -15,6 +15,11 @@
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types --local > types/supabase.ts",
     "db:push": "supabase db push",
+    "docker:dev": "NODE_ENV=development docker-compose up --build",
+    "docker:prod": "NODE_ENV=production docker-compose up --build -d",
+    "docker:build": "docker build -t next-supabase-app .",
+    "docker:stop": "docker-compose down",
+    "docker:clean": "docker-compose down -v && docker system prune -f",
     "prepare": "husky"
   },
   "dependencies": {
