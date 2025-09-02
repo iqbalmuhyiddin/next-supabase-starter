@@ -655,8 +655,8 @@ Docker is the recommended development approach for this project:
 
 ```bash
 # Start development (first time)
-cp .env.local.example .env.local  # Configure environment
-npm run docker:dev                # Start containers
+cp .env.development.example .env.development  # Configure environment
+npm run docker:dev                            # Start containers
 
 # Daily development
 npm run docker:dev    # Start (rebuilds if needed)
@@ -676,14 +676,17 @@ npm run docker:dev    # Rebuild and restart
 4. **Easy Onboarding**: New developers get running environment instantly
 5. **Volume Mounting**: Hot reload works seamlessly in development
 
-### Environment Files for Docker
+### Environment Files (Next.js Convention)
 
 ```bash
-# Development
-.env.local           # Docker development environment
+# Development (committed to git)
+.env.development     # Shared development defaults
 
-# Production  
+# Production (committed to git) 
 .env.production      # Production deployment environment
+
+# Personal overrides (never commit)
+.env.local           # Individual developer overrides
 ```
 
 ## 🚨 Critical Rules

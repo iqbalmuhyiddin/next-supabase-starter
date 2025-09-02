@@ -49,12 +49,12 @@ npm install
 
 ### 3. Configure Environment
 
-**For Docker development:**
+**For development (Docker and local):**
 ```bash
-# Copy the template
-cp .env.local.example .env.local
+# Copy the development template
+cp .env.development.example .env.development
 
-# Edit .env.local with your Supabase credentials
+# Edit .env.development with your Supabase credentials
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
@@ -67,13 +67,11 @@ cp .env.production.example .env.production
 # Edit .env.production with your production Supabase credentials
 ```
 
-**For local development (without Docker):**
+**Personal overrides (optional):**
 ```bash
-# Copy both templates
-cp .env.local.example .env.local
-cp .env.development.example .env.development
-
-# Edit both files with your Supabase credentials
+# Create .env.local for personal overrides (never commit this file)
+cp .env.development .env.local
+# Edit .env.local with your personal settings
 ```
 
 ### 4. Run Development Server
@@ -180,8 +178,8 @@ npm run test:ui         # Open Vitest UI
 **First time setup:**
 ```bash
 # 1. Set up environment
-cp .env.local.example .env.local
-# Edit .env.local with your Supabase credentials
+cp .env.development.example .env.development
+# Edit .env.development with your Supabase credentials
 
 # 2. Start development
 npm run docker:dev
@@ -305,13 +303,23 @@ Both dev and production containers include health checks on port 3000.
 
 ## 📝 Environment Variables
 
-Required environment variables:
+### File Structure (Next.js Convention)
+- **`.env.development`** - Development defaults (committed to git)
+- **`.env.production`** - Production defaults (committed to git)  
+- **`.env.local`** - Personal overrides (never committed)
 
+### Required variables:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key (optional)
 ```
+
+### Loading Order (Next.js official hierarchy):
+1. `.env` (base)
+2. `.env.development` or `.env.production` (environment-specific)
+3. `.env.local` (personal overrides)
+4. `.env.development.local` or `.env.production.local` (environment + personal)
 
 ## 🤝 Contributing
 
